@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
@@ -28,12 +28,28 @@ jobs:
       run: |
         pyinstaller --onefile --windowed main.py
 
-    - name: Compress executable
+    - name: Compress executable (Linux)
+      if: matrix.os == 'ubuntu-latest'
       run: |
         tar -czvf executable.tar.gz -C dist/ .
 
-    - name: Upload artifact
+    - name: Upload artifact (Linux)
+      if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-artifact@v3
       with:
         name: executable
         path: executable.tar.gz
+
+    - name: Upload artifact (Windows)
+      if: matrix.os == 'windows-latest'
+      uses: actions/upload-artifact@v3
+      with:
+        name: executable
+        path: dist/main.exe
+
+    - name: Upload artifact (macOS)
+      if: matrix.os == 'macos-latest'
+      uses: actions/upload-artifact@v3
+      with:
+        name: executable
+        path: dist/main
