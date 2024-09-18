@@ -28,8 +28,12 @@ jobs:
       run: |
         pyinstaller --onefile --windowed main.py
 
+    - name: Compress executable
+      run: |
+        tar -czvf executable.tar.gz -C dist/ .
+
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
         name: executable
-        path: dist/
+        path: executable.tar.gz
