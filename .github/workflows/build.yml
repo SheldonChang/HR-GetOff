@@ -25,8 +25,13 @@ jobs:
         pip install -r requirements.txt
         pip install pyinstaller
 
+    - name: Build executable (Linux2004)
+      if: matrix.os == 'ubuntu-20.04'
+      run: |
+        pyinstaller --onefile --windowed main.py
+
     - name: Build executable (Linux)
-      if: matrix.os == 'ubuntu-20.04' || matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'ubuntu-latest'
       run: |
         pyinstaller --onefile --windowed main.py
 
@@ -40,17 +45,29 @@ jobs:
       run: |
         pyinstaller --onefile --windowed main.py
 
-    - name: Compress executable (Linux)
-      if: matrix.os == 'ubuntu-20.04' || matrix.os == 'ubuntu-latest'
+    - name: Compress executable (Linux2004)
+      if: matrix.os == 'ubuntu-20.04'
       run: |
-        tar -czvf executable.tar.gz -C dist/ .
+        tar -czvf ubuntu-2004.tar.gz -C dist/ .
 
-    - name: Upload artifact (Linux)
-      if: matrix.os == 'ubuntu-20.04' || matrix.os == 'ubuntu-latest'
+    - name: Compress executable (Linux-latest)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        tar -czvf ubuntu-latest.tar.gz -C dist/ .
+
+    - name: Upload artifact (Linux2004)
+      if: matrix.os == 'ubuntu-20.04'
       uses: actions/upload-artifact@v3
       with:
         name: executable
-        path: executable.tar.gz
+        path: ubuntu-2004.tar.gz
+
+    - name: Upload artifact (Linux)
+      if: matrix.os == 'ubuntu-latest'
+      uses: actions/upload-artifact@v3
+      with:
+        name: executable
+        path: ubuntu-latest.tar.gz
 
     - name: Upload artifact (Windows)
       if: matrix.os == 'windows-latest'
