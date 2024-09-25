@@ -51,7 +51,8 @@ def update_countdown(root, label, checkin):
         if remain <= 600:
             change_color(root, "#EDC224")
         label.config(text=f"剩下 {remain} 秒就下班囉")
-        label.after(1000, update_countdown, root, label, checkin)
+        if root.winfo_exists():
+            label.after(1000, update_countdown, root, label, checkin)
     else:
         change_color(root, "#ED3B24")
         label.config(text="恭喜加班")

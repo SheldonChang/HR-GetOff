@@ -68,7 +68,7 @@ def find_date_text(driver):
                 return tmp_arr
 
         print("SCROOL: " + str(i))
-        driver.execute_script("arguments[0].scrollTop += 150;",
+        driver.execute_script("arguments[0].scrollTop += 250;",
                               driver.find_element(By.ID, "table1-table-vscroll"))
         time.sleep(scroll_pause_time)
 
