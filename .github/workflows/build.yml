@@ -44,41 +44,32 @@ jobs:
       if: matrix.os == 'macos-latest'
       run: |
         pyinstaller --onefile --windowed main.py
-
-    - name: Compress executable (Linux2004)
-      if: matrix.os == 'ubuntu-20.04'
-      run: |
-        tar -czvf ubuntu-2004.tar.gz -C dist/ .
-
-    - name: Compress executable (Linux-latest)
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        tar -czvf ubuntu-latest.tar.gz -C dist/ .
+        chmod +x dist/main
 
     - name: Upload artifact (Linux2004)
       if: matrix.os == 'ubuntu-20.04'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: executable
-        path: ubuntu-2004.tar.gz
+        name: executable-ubuntu-20.04
+        path: dist/main
 
     - name: Upload artifact (Linux)
       if: matrix.os == 'ubuntu-latest'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: executable
-        path: ubuntu-latest.tar.gz
+        name: executable-ubuntu-latest
+        path: dist/main
 
     - name: Upload artifact (Windows)
       if: matrix.os == 'windows-latest'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: executable
+        name: executable-windows
         path: dist/main.exe
 
     - name: Upload artifact (macOS)
       if: matrix.os == 'macos-latest'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: executable
+        name: executable-macos
         path: dist/main
